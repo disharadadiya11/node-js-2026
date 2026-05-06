@@ -23,12 +23,9 @@ const registerSchema = Joi.object({
     .messages({
       "string.pattern.base": "Mobile number must be between 10-15 digits",
     }),
-  role: Joi.string()
-    .valid("user", "admin", "moderator")
-    .default("user")
-    .messages({
-      "any.only": "Role must be one of: user, admin, moderator",
-    }),
+  role: Joi.string().valid("USER", "ADMIN").default("user").messages({
+    "any.only": "Role must be one of: user, admin, moderator",
+  }),
   file: Joi.any().optional(),
 });
 
@@ -59,7 +56,7 @@ const updateUserSchema = Joi.object({
     .messages({
       "string.pattern.base": "Mobile number must be between 10-15 digits",
     }),
-  role: Joi.string().valid("user", "admin", "moderator").messages({
+  role: Joi.string().valid("USER", "ADMIN").messages({
     "any.only": "Role must be one of: user, admin, moderator",
   }),
   file: Joi.any().optional(),
