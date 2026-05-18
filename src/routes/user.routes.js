@@ -12,6 +12,8 @@ router.post("/register", validate(registerSchema), userController.register);
 
 router.post("/login", validate(loginSchema), userController.login);
 
+router.post("/logout", userController.logout);
+
 router.put("/update/:id", userController.update);
 
 router.delete("/delete/:id", userController.delete);

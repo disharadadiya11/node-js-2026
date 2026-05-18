@@ -39,7 +39,40 @@ module.exports.update = async (req, res) => {
 module.exports.login = async (req, res) => {
   try {
     const result = await userService.login(req.body);
+    if (result.statusCode === StatusCodes.OK && result.data) {
+      req.session.userId = result.data._id;
+      req.session.userRole = result.data.role;
+    }
     return res.status(result.statusCode).json(result);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json(
+        errorResponse(StatusCodes.INTERNAL_SERVER_ERROR, true, error.message),
+      );
+  }
+};
+
+module.exports.logout = async (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        console.log(err);
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json(
+            errorResponse(
+              StatusCodes.INTERNAL_SERVER_ERROR,
+              true,
+              "Logout failed",
+            ),
+          );
+      }
+      return res
+        .status(StatusCodes.OK)
+        .json({ statusCode: StatusCodes.OK, error: false, message: "Logged out successfully" });
+    });
   } catch (error) {
     console.log(error);
     return res

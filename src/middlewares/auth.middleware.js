@@ -1,24 +1,38 @@
 const { USER } = require("../constants/message");
 const userModel = require("../models/user.model");
 const { StatusCodes } = require("http-status-codes");
-const { verifyToken } = require("../utils/jwt.utils");
+// const { verifyToken } = require("../utils/jwt.utils");
 const { errorResponse } = require("../utils/response.utils");
 const { protectedRoutes } = require("../routes/protected.routes");
 const { match } = require("path-to-regexp");
 
 module.exports.authenticate = async (req, res, next) => {
   try {
-    const token = await req.headers?.["authorization"]?.split(" ")[1];
-    if (!token) {
+    // session
+    const userId = req.session?.userId;
+    if (!userId) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
         .json(
           errorResponse(StatusCodes.UNAUTHORIZED, false, USER.PLEASE_LOGIN),
         );
     }
+    // jwt
+    //     const token = await req.headers?.["authorization"]?.split(" ")[1];
+    // if (!token) {
+    //   return res
+    //     .status(StatusCodes.UNAUTHORIZED)
+    //     .json(
+    //       errorResponse(StatusCodes.UNAUTHORIZED, false, USER.PLEASE_LOGIN),
+    //     );
+    // }
 
-    const { _id } = await verifyToken(token);
-    const user = await userModel.findById(_id);
+    // session
+    const user = await userModel.findById(userId);
+
+    // jwt
+    //  const { _id } = await verifyToken(token);
+    // const user = await userModel.findById(_id);
     if (!user) {
       return res
         .status(StatusCodes.UNAUTHORIZED)

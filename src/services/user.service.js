@@ -1,7 +1,7 @@
 const { USER } = require("../constants/message");
 const userModel = require("../models/user.model");
 const { StatusCodes } = require("http-status-codes");
-const { generateToken } = require("../utils/jwt.utils");
+// const { generateToken } = require("../utils/jwt.utils");
 const { paginate } = require("../utils/pagination.utils");
 const { uploadFile } = require("../utils/fileUpload.utils");
 const { encryptPassword } = require("../utils/password.utils");
@@ -30,7 +30,7 @@ module.exports = class UserService {
     result = {
       ...result._doc,
       password: undefined,
-      token: generateToken({ _id: result._id }),
+      // token: generateToken({ _id: result._id }),
     };
     return successResponse(
       StatusCodes.CREATED,
@@ -80,7 +80,7 @@ module.exports = class UserService {
     result = {
       ...result._doc,
       password: undefined,
-      token: generateToken({ _id: result._id }),
+      // token: generateToken({ _id: result._id }),
     };
     return successResponse(StatusCodes.OK, false, USER.LOGIN_SUCCESS, result);
   }
