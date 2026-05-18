@@ -71,7 +71,11 @@ module.exports.logout = async (req, res) => {
       }
       return res
         .status(StatusCodes.OK)
-        .json({ statusCode: StatusCodes.OK, error: false, message: "Logged out successfully" });
+        .json({
+          statusCode: StatusCodes.OK,
+          error: false,
+          message: "Logged out successfully",
+        });
     });
   } catch (error) {
     console.log(error);
